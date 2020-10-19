@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>l2_ex1_ownModificators</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+      window.onload = function () {
+        var app = new Vue({
+          el: "#example",
+          data: {
+            text_input: "",
+          },
+          methods: {
+            copy: function () {
+              console.log(this.text_input);
+            },
+            delete_text: function() {
+                this.text_input = "";
+            }
+          },
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div id="example" v-on:keyup.ctrl.67="copy" v-on:keyup.delete="delete_text">
+      <label for="text">Enter your text here:</label>
+      <input 
+        v-model="text_input"
+        type="text"
+        name="text"
+        placeholder="Some text"
+      />
+
+      <p>{{ text_input }}</p>
+    </div>
+
+    <p>
+      Создайте два собственных модификатора. Один из которых будет из текстового
+      поля копировать значения данных и текстового поля, а второй – удалять.
+    </p>
+  </body>
+</html>
