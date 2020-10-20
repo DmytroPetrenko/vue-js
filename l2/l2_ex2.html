@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>l2_ex2</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <script>
+      window.onload = function () {
+        var form = new Vue({
+          el: "form",
+          data: {
+            color_input: "",
+            color_output: "",
+          },
+          methods: {
+            mymethod: function () {
+              this.color_output = this.color_input;
+              this.color_input = "";
+
+              // Первый вариант
+
+              document.querySelector(
+                "body"
+              ).style.backgroundColor = this.color_output;
+            },
+          },
+          // Второй вариант
+
+          //   watch: {
+          //     color_output: function() {
+          //       document.querySelector(
+          //         "body"
+          //       ).style.backgroundColor = this.color_output;
+          //     },
+          //   },
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div id="form">
+      <form v-on:submit.prevent="mymethod">
+        <label for="color_input">Enter color: </label>
+        <input v-model="color_input" name="color_input" type="text" />
+        <input type="submit" value="submit" />
+        <p>Here: {{ color_output }}</p>
+      </form>
+    </div>
+
+    Задание 2 Создайте страницу с текстовым полем ввода. При нажатии на кнопку
+    подтверждения, данные из поля должны отображаться в документе, поле ввода –
+    очищаться, а фоновый цвет меняться в зависимости от введённого значения.
+  </body>
+</html>
