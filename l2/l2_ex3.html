@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>l2_ex3</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+      window.onload = function () {
+        new Vue({
+          el: "#wrap",
+          data: {
+            list: [
+              { id: 1, text: "function1" },
+              { id: 2, text: "function2" },
+            ],
+            mouse: "",
+            timestamp: "",
+          },
+          created() {
+            setInterval(this.getNow, 1000);
+          },
+          methods: {
+            getNow: function () {
+              const today = new Date();
+              const date =
+                today.getFullYear() +
+                "-" +
+                (today.getMonth() + 1) +
+                "-" +
+                today.getDate();
+              const time =
+                today.getHours() +
+                ":" +
+                today.getMinutes() +
+                ":" +
+                today.getSeconds();
+              const dateTime = date + " " + time;
+              this.timestamp = dateTime;
+            },
+            open_menu: function () {
+              console.log("dsds");
+            },
+            menuitemhandlerright: function (id) {
+              if (id == 1) {
+                this.mouse = "right";
+                console.log(this.mouse + id);
+              } else {
+                console.log(this.timestamp);
+              }
+            },
+            menuitemhandlermiddle: function (id) {
+              if (id == 1) {
+                this.mouse = "middle";
+                console.log(this.mouse + id);
+              } else {
+                console.log(this.timestamp);
+              }
+            },
+            menuitemhandlerleft: function (id) {
+              if (id == 1) {
+                this.mouse = "left";
+                console.log(this.mouse + id);
+              } else {
+                console.log(this.timestamp);
+              }
+            },
+          },
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div id="wrap" @contextmenu.prevent="open_menu">
+      <h1>НАЖМИТЕ ПРАВУЮ КНОПКУ МЫШИ НАД ТЕКСТОМ</h1>
+
+      Задание 3 Создайте функцию, которая будет на нажатие кнопки мыши
+      предлагать пользователю – два варианта, при нажатии на первый –
+      выполняться функция, которая показывает какая клавиша мыши была нажата,
+      другой – выводиться текущее время.
+
+      <div id="contextmenu">
+        <div
+          v-for="item in list"
+          @click.right="menuitemhandlerright(item.id)"
+          @click.middle="menuitemhandlermiddle(item.id)"
+          @click.left="menuitemhandlerleft(item.id)"
+        >
+          {{ item.text }}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
