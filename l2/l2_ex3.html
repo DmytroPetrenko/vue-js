@@ -17,6 +17,12 @@
             ],
             mouse: "",
             timestamp: "",
+            visible: false,
+            contextmenu: {
+              top: "",
+              left: "",
+            },
+            output: "",
           },
           created() {
             setInterval(this.getNow, 1000);
@@ -39,30 +45,42 @@
               const dateTime = date + " " + time;
               this.timestamp = dateTime;
             },
-            open_menu: function () {
-              console.log("dsds");
+            open_menu: function (e) {
+              this.contextmenu.left = e.clientX + "px";
+              this.contextmenu.top = e.clientY + "px";
+
+              this.visible = !this.visible;
+            },
+            close_menu: function () {
+              this.visible = false;
             },
             menuitemhandlerright: function (id) {
               if (id == 1) {
                 this.mouse = "right";
+                this.output = this.mouse + id;
                 console.log(this.mouse + id);
               } else {
+                this.output = this.timestamp;
                 console.log(this.timestamp);
               }
             },
             menuitemhandlermiddle: function (id) {
               if (id == 1) {
                 this.mouse = "middle";
+                this.output = this.mouse + id;
                 console.log(this.mouse + id);
               } else {
+                this.output = this.timestamp;
                 console.log(this.timestamp);
               }
             },
             menuitemhandlerleft: function (id) {
               if (id == 1) {
                 this.mouse = "left";
+                this.output = this.mouse + id;
                 console.log(this.mouse + id);
               } else {
+                this.output = this.timestamp;
                 console.log(this.timestamp);
               }
             },
@@ -70,9 +88,25 @@
         });
       };
     </script>
+    <style>
+      #contextmenu {
+        background-color: lavender;
+        padding: 10px;
+        display: inline-block;
+        position: fixed;
+      }
+
+      #contextmenu > div {
+        padding: 10px;
+      }
+
+      #contextmenu > div:hover {
+        background-color: silver;
+      }
+    </style>
   </head>
   <body>
-    <div id="wrap" @contextmenu.prevent="open_menu">
+    <div id="wrap" @contextmenu.prevent="open_menu" @click.prevent="close_menu">
       <h1>НАЖМИТЕ ПРАВУЮ КНОПКУ МЫШИ НАД ТЕКСТОМ</h1>
 
       Задание 3 Создайте функцию, которая будет на нажатие кнопки мыши
@@ -80,7 +114,7 @@
       выполняться функция, которая показывает какая клавиша мыши была нажата,
       другой – выводиться текущее время.
 
-      <div id="contextmenu">
+      <div id="contextmenu" v-show="visible" v-bind:style="contextmenu">
         <div
           v-for="item in list"
           @click.right="menuitemhandlerright(item.id)"
@@ -90,6 +124,8 @@
           {{ item.text }}
         </div>
       </div>
+
+      <p>{{ output }}</p>
     </div>
   </body>
 </html>
