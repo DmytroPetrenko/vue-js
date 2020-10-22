@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>l3_add2</title>
+
+    <style>
+      .borderColor {
+        border: 1px solid red;
+      }
+
+      .borderColor:focus {
+        outline: none !important;
+        border: 1px solid red;
+        box-shadow: 0 0 10px #719ece;
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    Создайте в документе текстовое поле и кнопку. Если пользователь вводит более
+    30 символов в поле, кнопка прячется, поле становится с красной рамкой. Менее
+    30 – кнопка появляется, рамка становится стандартного цвета
+
+    <form id="form">
+      <input type="text" v-model="textinput" v-bind:class="inputcolor" />
+      <input type="button" value="button" v-if="visible" />
+    </form>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+      var form = new Vue({
+        el: "#form",
+        data: {
+          textinput: "",
+        },
+        computed: {
+          inputlength: function () {
+            return this.textinput.length;
+          },
+          visible: function () {
+            if (this.inputlength > 30) {
+              return false;
+            } else {
+              return true;
+            }
+          },
+          inputcolor: function () {
+            if (!this.visible) {
+              return { borderColor: true };
+            }
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
