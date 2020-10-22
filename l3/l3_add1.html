@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>l3_add1</title>
+  </head>
+  <body>
+    <!-- Вариант 1 -->
+
+    <!-- <div id="app">
+      <div v-show="visible">
+        <h2>Заголовок</h2>
+        <p>Текст</p>
+      </div>
+      <button v-on:click="visible=!visible">
+        {{visible?'Скрыть':'Отобразить'}}
+      </button>
+    </div> -->
+
+    <!-- ------------------------------------------- -->
+
+    <!-- Вариант 2 -->
+
+    <div id="app">
+      <div v-if="visible">
+        <h2>Заголовок</h2>
+        <p>Текст</p>
+      </div>
+      <button v-on:click="visible=!visible">
+        {{visible?'Скрыть':'Отобразить'}}
+      </button>
+    </div>
+
+    <!-- ------------------------------------------- -->
+
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          visible: true,
+        },
+      });
+    </script>
+  </body>
+</html>
