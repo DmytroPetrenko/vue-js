@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>l4_ex2</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+      .menu-wrapper > ul {
+        list-style-type: none;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .menu-wrapper > ul > li {
+        padding: 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="task">
+      Создайте приложение, в котором будет находиться список с тремя элементами.
+      При нажатии на элементы списка, будет менятся вид загружаемой страницы.
+      Используйте шаблоны.
+    </div>
+
+    <div id="app" class="app-wrapper">
+      <mymenu :styles="styles"></mymenu>
+    </div>
+
+    <script type="text/x-template" id="template-component-menu">
+      <div class="menu-wrapper" :style='style'>
+        <ul>
+            <li v-on:click='setStyle(0)'>View 1</li>
+            <li v-on:click='setStyle(1)'>View 2</li>
+            <li v-on:click='setStyle(2)'>View 3</li>
+        </ul>
+      </div>
+    </script>
+    <script type="text/javascript">
+      Vue.component("mymenu", {
+        template: "#template-component-menu",
+        props: { styles: Array },
+        data: function () {
+          return { style: "" };
+        },
+
+        methods: {
+          setStyle: function (id) {
+            this.style = this.styles[id];
+          },
+        },
+      });
+
+      var app = new Vue({
+        el: "#app",
+        data: {
+          styles: [
+            {
+              id: 0,
+              backgroundColor: "red",
+              fontSize: "18px",
+            },
+            {
+              id: 1,
+              backgroundColor: "blue",
+              fontSize: "24px",
+              color: "white",
+            },
+            {
+              id: 2,
+              backgroundColor: "green",
+              fontSize: "10px",
+            },
+          ],
+        },
+      });
+    </script>
+  </body>
+</html>
