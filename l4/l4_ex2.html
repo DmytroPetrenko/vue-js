@@ -35,8 +35,8 @@
     </div>
 
     <div id="app" class="app-wrapper">
-      <mymenu :styles="styles" :lis="lis"></mymenu>
-      <mybody :texts="texts" :id="id"></mybody>
+      <mymenu :styles="styles" :lis="lis" :activeid="activeid"></mymenu>
+      <mybody :texts="texts" :id="activeid.id"></mybody>
     </div>
 
     <script type="text/x-template" id="template-component-menu">
@@ -56,18 +56,15 @@
     <script type="text/javascript">
       Vue.component("mymenu", {
         template: "#template-component-menu",
-        props: { styles: Array, lis: Array },
+        props: { styles: Array, lis: Array, activeid: Object },
         data: function () {
-          return { style: this.styles[0], id: 0, prid: 0 };
+          return { style: this.styles[0], id: 0 };
         },
 
         watch: {
           id: function () {
-            console.log(this.id);
             this.style = this.styles[this.id];
-            this.lis[this.prid].status = false;
-            this.prid = this.id;
-            this.lis[this.id].status = true;
+            this.activeid.id = this.id;
           },
         },
       });
@@ -80,7 +77,6 @@
         },
         watch: {
           id: function () {
-            console.log("body " + this.id);
             this.text = this.texts[this.id].text;
           },
         },
@@ -89,7 +85,7 @@
       var app = new Vue({
         el: "#app",
         data: {
-          id: 0,
+          activeid: { id: 0 },
           styles: [
             {
               id: 0,
@@ -114,23 +110,10 @@
             { id: 2, text: "from view 3" },
           ],
           lis: [
-            { id: 0, text: "view1", status: true },
-            { id: 1, text: "view2", status: false },
-            { id: 2, text: "view3", status: false },
+            { id: 0, text: "view1" },
+            { id: 1, text: "view2" },
+            { id: 2, text: "view3" },
           ],
-        },
-        watch: {
-          lis: {
-            handler: function (newArray) {
-              newArray.forEach((obj) => {
-                if (obj.status == true) {
-                  this.id = obj.id;
-                  console.log("Here " + this.id);
-                }
-              });
-            },
-            deep: true,
-          },
         },
       });
     </script>
