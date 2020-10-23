@@ -20,6 +20,11 @@
         padding: 10px;
         cursor: pointer;
       }
+
+      .body-wrapper {
+        width: 100%;
+        background-color: burlywood;
+      }
     </style>
   </head>
   <body>
@@ -30,29 +35,53 @@
     </div>
 
     <div id="app" class="app-wrapper">
-      <mymenu :styles="styles"></mymenu>
+      <mymenu :styles="styles" :lis="lis"></mymenu>
+      <mybody :texts="texts" :id="id"></mybody>
     </div>
 
     <script type="text/x-template" id="template-component-menu">
-      <div class="menu-wrapper" :style='style'>
+      <div class="menu-wrapper" :style='style' >
         <ul>
-            <li v-on:click='setStyle(0)'>View 1</li>
-            <li v-on:click='setStyle(1)'>View 2</li>
-            <li v-on:click='setStyle(2)'>View 3</li>
+            <li v-for='li in lis' v-on:click='id = li.id' >{{li.text}}</li>
         </ul>
       </div>
     </script>
+
+    <script type="text/x-template" id="template-component-body">
+      <div class="body-wrapper" >
+        <p>Some text here {{text}}</p>
+      </div>
+    </script>
+
     <script type="text/javascript">
       Vue.component("mymenu", {
         template: "#template-component-menu",
-        props: { styles: Array },
+        props: { styles: Array, lis: Array },
         data: function () {
-          return { style: "" };
+          return { style: this.styles[0], id: 0, prid: 0 };
         },
 
-        methods: {
-          setStyle: function (id) {
-            this.style = this.styles[id];
+        watch: {
+          id: function () {
+            console.log(this.id);
+            this.style = this.styles[this.id];
+            this.lis[this.prid].status = false;
+            this.prid = this.id;
+            this.lis[this.id].status = true;
+          },
+        },
+      });
+
+      Vue.component("mybody", {
+        template: "#template-component-body",
+        props: { texts: Array, id: Number },
+        data: function () {
+          return { text: this.texts[0].text };
+        },
+        watch: {
+          id: function () {
+            console.log("body " + this.id);
+            this.text = this.texts[this.id].text;
           },
         },
       });
@@ -60,6 +89,7 @@
       var app = new Vue({
         el: "#app",
         data: {
+          id: 0,
           styles: [
             {
               id: 0,
@@ -78,6 +108,29 @@
               fontSize: "10px",
             },
           ],
+          texts: [
+            { id: 0, text: "from view 1" },
+            { id: 1, text: "from view 2" },
+            { id: 2, text: "from view 3" },
+          ],
+          lis: [
+            { id: 0, text: "view1", status: true },
+            { id: 1, text: "view2", status: false },
+            { id: 2, text: "view3", status: false },
+          ],
+        },
+        watch: {
+          lis: {
+            handler: function (newArray) {
+              newArray.forEach((obj) => {
+                if (obj.status == true) {
+                  this.id = obj.id;
+                  console.log("Here " + this.id);
+                }
+              });
+            },
+            deep: true,
+          },
         },
       });
     </script>
